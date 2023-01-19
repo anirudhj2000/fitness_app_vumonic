@@ -15,4 +15,5 @@ export default Images = {
     minus : require('../assets/minus.png'),
     add_1 : require('../assets/add_1.png'),
     edit :  require('../assets/edit.png'),
+    empty : require('../assets/empty.png')
 }

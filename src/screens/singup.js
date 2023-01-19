@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {View,Text,StyleSheet,Dimensions,TextInput,TouchableOpacity,Image} from 'react-native'
 import auth from '@react-native-firebase/auth';
 import Images from '../../util/images';
+import firestore from '@react-native-firebase/firestore';
 
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
@@ -70,7 +71,17 @@ const Signup = (props) => {
         if(email!=null && password!=null){
             auth()
         .createUserWithEmailAndPassword(email, password)
-        .then(() => {
+        .then((user) => {
+            let userUid = user.user.uid
+            const account = {
+                useruid: userUid,
+                email: user.user.email
+            }
+
+            console.log(account);
+
+            firestore().collection('accounts').doc(userUid).set(account);
+            firestore().collection('workoutsCollection').doc(userUid).set(account);
             postSignupChange()
         })
         .catch(error => {
@@ -94,7 +105,7 @@ const Signup = (props) => {
         setEmail("");
         setPassword("");
         setConfirmPassword("");
-
+        props
     }
 
     return (

@@ -5,7 +5,10 @@ import { RadioGroup } from 'react-native-radio-buttons-group';
 import { Exercises } from '../utils/constants';
 import ExerciseItemCard from '../components/exerciseItemCard';
 import firestore from '@react-native-firebase/firestore';
-import Toast from 'react-native-toast-message'
+import Toast from 'react-native-toast-message';
+import WeekdayIcon from '../components/weekdayIcon';
+import Weekdays from '../utils/constants'
+import auth from '@react-native-firebase/auth';
 
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
@@ -60,11 +63,28 @@ const ACTIONS = {
     }
   }
 
+  function weekReducer(weekList,action){
+    switch (action.type){
+        case 'toggle':
+            return weekList.map((item) => {
+                if(item.title == action.payload.title){
+                    console.log("sup")
+                    return {...item, check : !item.check}
+                }
+                return item;
+            })
+        default:
+            return weekList
+    }
+  }
+
 const CreateWorkout = (props) => {
 
   let {id, mode} = props.route.params;
   const [workouts, setWorkouts] = useState([]);
+  const [week, setWeek] = useState(Weekdays)
   const [workoutList, dispatch] = useReducer(reducer, [])
+  const [weekList, dispatchColor] = useReducer(weekReducer, week)
   const [toggle, setToggle] = useState(false);
   const [exercise, setExercise] = useState("");
   const [title, setTitle] = useState("");
@@ -89,13 +109,37 @@ const CreateWorkout = (props) => {
 
   useEffect(() => {
     console.log(id)
-    GetObjectFromFirestore(id);
+    if(id!=0){
+        GetObjectFromFirestore(id);
+    }
   },[])
+
+
+  const Weekly = (props) => {
+  
+    let activeDayColor = "#4acf6e";
+    let inactiveDayColor = "#d90f3b";
+    let defaultColor = "#c7c7c7";
+   
+    return (
+      <View style={props.style}>
+          {weekList.map((item) => {
+              return(
+                  <WeekdayIcon onPress={() => {dispatchColor({type:'toggle',payload : {title : item.title}})}} weekday={item.title} statusColor={item.check?activeDayColor:defaultColor}/>
+              )
+          })}
+      </View>
+    )
+  }
 
   const GetObjectFromFirestore = async(id) => {
 
+    let uid = auth().currentUser.uid;
+
     await firestore()
-    .collection('workouts')
+    .collection('workoutsCollection')
+    .doc(uid)
+    .collection('workout')
     .doc(id)
     .get()
     .then(documentSnapshot => {
@@ -128,10 +172,12 @@ const CreateWorkout = (props) => {
     finalObj["exercises"] = workoutList;
     finalObj["frequency"] = frequency;
 
-
+    let uid = auth().currentUser.uid;
 
     firestore()
-    .collection('workouts')
+    .collection('workoutsCollection')
+    .doc(uid)
+    .collection('workout')
     .doc(id)
     .update(finalObj)
     .then(() => {
@@ -192,7 +238,22 @@ const CreateWorkout = (props) => {
     }
 
     let finalObj = {};
-    let frequency = ""
+    let frequency = "";
+    let week = [];
+
+    if(!title){
+        console.log("style veru")
+        Toast.show({
+            type: 'error',
+            text1: 'Error!',
+            text2 : 'Please enter valid workout title',
+            position:'top',
+            visibilityTime:2000
+        });
+        return ;
+    }
+    
+
     frequencyRadio.map((item) => {
         if(item.selected){
             frequency = item.value
@@ -210,21 +271,33 @@ const CreateWorkout = (props) => {
         });
         return ;
     }
-    
-    if(!title){
+
+    week = weekList.filter((item) => {
+       if(item.check == true){
+            return item
+       }
+    }).map((item) => {
+        return item.val
+    })
+    console.log("week",week)
+
+    if(!week.length){
         console.log("style veru")
         Toast.show({
             type: 'error',
             text1: 'Error!',
-            text2 : 'Please enter valid workout title',
+            text2 : 'Select days from the week',
             position:'top',
             visibilityTime:2000
         });
         return ;
     }
+    
 
-    if(!workoutList){
-        console.log("style veru")
+    console.log("workout list", workoutList)
+
+    if(!workoutList.length>0){
+        console.log("style verusdfghxs")
         Toast.show({
             type: 'error',
             text1: 'Error!',
@@ -234,12 +307,19 @@ const CreateWorkout = (props) => {
         });
         return ;
     }
+
     finalObj["title"] = title;
     finalObj["exercises"] = workoutList;
     finalObj["frequency"] = frequency;
+    finalObj["week"] = week;
+    
+    let uid = auth().currentUser.uid;
+    console.log(uid);
 
     firestore()
-    .collection('workouts')
+    .collection('workoutsCollection')
+    .doc(uid)
+    .collection('workout')
     .add(finalObj)
     .then(() => {
         handleClear();
@@ -249,8 +329,13 @@ const CreateWorkout = (props) => {
   }
 
   const handleDelete = async() => {
+
+    let uid = auth().currentUser.uid;
+
     await  firestore()
-    .collection('workouts')
+    .collection('workoutsCollection')
+    .doc(uid).
+    collection('workout')
     .doc(id)
     .delete()
     .then(() => {
@@ -299,6 +384,9 @@ const CreateWorkout = (props) => {
                     radioButtons={frequencyRadio} 
                     onPress={onPressRadioButton}
                 />
+            </View>
+            <View style={styles.streakView}>
+                <Weekly style={{width:'100%',display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-around'}}/>
             </View>
             {/* <View style={styles.frequency}>
                 <Text style={{fontSize:16,marginHorizontal:4,color:'#fff'}}>Frequency :</Text>
@@ -413,4 +501,17 @@ const styles = new StyleSheet.create({
         justifyContent:'flex-start',
         alignItems:'center'
     },
+
+    streakView : {
+        width:'100%',
+        height:sh*0.05,
+        backgroundColor:'#28335e',
+        alignSelf:'center',
+        elevation:2,
+        borderRadius:4,
+        marginTop:'5%',
+        display:'flex',
+        flexDirection:'column',
+        justifyContent:'center'
+      },
 })

@@ -5,6 +5,7 @@ import Images from '../../util/images';
 import InfoCards from '../components/infoCards';
 import ExerciseItemCard from '../components/exerciseItemCard';
 import ExerciseSimple from '../components/ExerciseSimple';
+import auth from '@react-native-firebase/auth';
 
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
@@ -55,8 +56,12 @@ const ViewWorkout = (props) => {
 
   const getDocInfo = async(id) => {
     console.log("caleed")
+
+    let uid = auth().currentUser.uid
     await firestore()
-    .collection('workouts')
+    .collection('workoutsCollection')
+    .doc(uid)
+    .collection('workout')
     .doc(id)
     .get()
     .then(documentSnapshot => {

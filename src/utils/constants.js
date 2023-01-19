@@ -1,4 +1,41 @@
-export default Weekdays = ['M','T','W','Th','F','S','Su'];
+export default Weekdays = [
+    {
+        title :'M',
+        check : false,
+        val :'Monday'
+    },
+    {
+        title :'T',
+        check : false,
+        val :'Tuesday'
+    },
+    {
+        title :'W',
+        check : false,
+        val :'Wednesday'
+    },
+    {
+        title :'Th',
+        check : false,
+        val :'Thursday'
+    },
+
+    {
+        title :'F',
+        check : false,
+        val :'Friday'
+    },
+    {
+        title :'S',
+        check : false,
+        val :'Saturday'
+    },
+    {
+        title :'Su',
+        check : false,
+        val :'Sunday'
+    },
+];
 
 export {Exercises}
 

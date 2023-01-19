@@ -1,14 +1,17 @@
 import React ,{useEffect, useState}from 'react'
-import { SafeAreaView, View, Text, StyleSheet, FlatList,ActivityIndicator, ImageBackground,TouchableOpacity,Dimensions} from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, FlatList,ActivityIndicator, Image,ImageBackground,TouchableOpacity,Dimensions} from 'react-native';
 import WorkoutCard from '../components/workoutCard';
 import firestore from '@react-native-firebase/firestore';
 import Images from '../../util/images';
+import { useIsFocused } from "@react-navigation/native";
+import auth from '@react-native-firebase/auth';
 
 
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
 
 const Workouts = (props) => {
+    const isFocused = useIsFocused();
   const [workoutList, setWorkoutList] = useState([]);
   const [viewToggle, setViewToggle] = useState(true);
 
@@ -20,9 +23,12 @@ const Workouts = (props) => {
 
   const getWorkouts = async() => {
 
+    let uid = auth().currentUser.uid
 
     await firestore()
-    .collection('workouts')
+    .collection('workoutsCollection')
+    .doc(uid)
+    .collection('workout')
     .get()
     .then(querySnapshot => {
         console.log('Total users: ', querySnapshot.size);
@@ -46,8 +52,8 @@ const Workouts = (props) => {
   useEffect(() => {
     setWorkoutList([]);
     getWorkouts();
-    
-  },[])
+    setViewToggle(true)
+  },[props,isFocused])
 
   return (
     
@@ -61,7 +67,10 @@ const Workouts = (props) => {
                         <Text style={{fontSize:32,color:'#fff'}}>Workouts</Text>
                     </View>
                     <View style={styles.homeCircuits} >
-                    <FlatList
+                    {
+                        workoutList.length >0 ?
+
+                        <FlatList
                         data={workoutList}
                         renderItem={({ item }) => (
                         <WorkoutCard
@@ -76,10 +85,19 @@ const Workouts = (props) => {
                         numColumns={2}
                         keyExtractor={(item, index) => index}
                     />
+                    :
+                    <View style={{height:'80%',display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
+                        <Image style={{height:64,width:64,marginVertical:8,tintColor:'#c7c7c7'}} source={Images.empty}/>
+                        <Text style={{fontSize:24,textAlign:'center',color:'#fff'}}>No workouts yet!</Text>
+                        <Text style={{fontSize:24,textAlign:'center',color:'#fff'}}>Create a new workout</Text>
+                    </View>
+
+                    }
+                   
                     </View>
                     
             </View>
-            <TouchableOpacity style={{position:'absolute',right:0,bottom:0,marginHorizontal:'2.5%',marginVertical:'4%'}} onPress={() => {props.navigation.navigate('CreateWorkout')}}>
+            <TouchableOpacity style={{position:'absolute',right:0,bottom:0,marginHorizontal:'2.5%',marginVertical:'4%'}} onPress={() => {props.navigation.navigate('CreateWorkout',{id:'0',mode:'add'})}}>
                 <ImageBackground style={{height:sh*0.075,width:sh*0.075}} source={Images.add} />
             </TouchableOpacity>
             </>

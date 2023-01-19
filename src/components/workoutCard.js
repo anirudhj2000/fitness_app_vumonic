@@ -51,12 +51,15 @@ const styles = new StyleSheet.create({
     time : {
         width:'70%',
         borderRadius:4,
-        marginVertical:8,
         flexDirection:'column',
         display:'flex',
         alignItems:'flex-start',
         backgroundColor:'rgba(0,0,0,0.3)',
         padding:12,
+        position:'absolute',
+        right:0,
+        bottom:0,
+        margin:16,
         justifyContent:'center',
     },
 
