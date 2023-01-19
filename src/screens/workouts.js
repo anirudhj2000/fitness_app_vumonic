@@ -8,12 +8,33 @@ import Images from '../../util/images';
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
 
+const ACTIONS = {
+    INCREMENT: 'increment',
+    DECREMENT: 'decrement',
+    DELETE: 'delete',
+  }
+  
+  function reducer(count, action) {
+    switch (action.type) {
+      case ACTIONS.INCREMENT:
+        return count + 1
+      case ACTIONS.DECREMENT:
+        return count - 1
+      case ACTIONS.RESET:
+        return 0
+      case ACTIONS.CHANGE_COUNT:
+        return count + action.payload.amount
+      default:
+        return count
+    }
+  }
+
 const Workouts = (props) => {
   const [workoutList, setWorkoutList] = useState([]);
 
-  const getWorkouts = async() => {
+  const getWorkouts = () => {
 
-    await setWorkoutList(null);
+
     firestore()
     .collection('workouts')
     .get()
@@ -21,9 +42,12 @@ const Workouts = (props) => {
         console.log('Total users: ', querySnapshot.size);
         console.log(workoutList)
         let arr = []
+        var tempObj = {}
         querySnapshot.forEach(documentSnapshot => {
             console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-            arr = [...arr,documentSnapshot.data()]
+            tempObj = documentSnapshot.data();
+            tempObj['id'] = documentSnapshot.id
+            arr = [...arr,tempObj]
             setWorkoutList(arr)
             console.log("arr", arr)
         });

@@ -9,5 +9,9 @@ export default Images = {
     add: require('../assets/plus.png'),
     clock: require('../assets/clock.png'),
     dumbell: require('../assets/dumbell.png'),
-    repeat: require('../assets/repeat.png')
+    repeat: require('../assets/repeat.png'),
+    plus : require('../assets/add.png'),
+    delete : require('../assets/delete.png'),
+    minus : require('../assets/minus.png'),
+    add_1 : require('../assets/add_1.png'),
 }
