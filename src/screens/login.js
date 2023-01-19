@@ -100,7 +100,7 @@ const handleLogin = () => {
                 </TouchableOpacity>
             </View>
         </View>
-        <TouchableOpacity  style={styles.loginButton} onPress={() => {handleLogin()}}>
+        <TouchableOpacity  style={styles.loginButton} onPress={() => {handleLogin2()}}>
             <View>
                 <Text style={{color:'#000'}}>Log in</Text>
             </View>

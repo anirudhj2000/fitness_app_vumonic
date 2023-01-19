@@ -2,42 +2,49 @@ export default Weekdays = [
     {
         title :'M',
         check : false,
-        val :'Monday'
+        val :'Monday',
+        workout:[]
     },
     {
         title :'T',
         check : false,
-        val :'Tuesday'
+        val :'Tuesday',
+        workout:[]
     },
     {
         title :'W',
         check : false,
-        val :'Wednesday'
+        val :'Wednesday',
+        workout:[]
     },
     {
         title :'Th',
         check : false,
-        val :'Thursday'
+        val :'Thursday',
+        workout:[]
     },
 
     {
         title :'F',
         check : false,
-        val :'Friday'
+        val :'Friday',
+        workout:[]
     },
     {
         title :'S',
         check : false,
-        val :'Saturday'
+        val :'Saturday',
+        workout:[]
     },
     {
         title :'Su',
         check : false,
-        val :'Sunday'
+        val :'Sunday',
+        workout:[]
     },
 ];
 
-export {Exercises}
+export {Exercises,Instructions}
 
 const Exercises = [
     'BenchPress',
@@ -59,4 +66,11 @@ const Exercises = [
     'Burpee',
     'Jumping jacks',
     'Glute bridges'
+]
+
+const Instructions = [
+    "1. Go to the workouts section to view , create , update and delete workouts",
+    "2. Click on the add icon to create workout",
+    "3. Click on the workouts to view the complete workout, ther you can also opt for edit.",
+    "4. Go to the calendar secttion to view the workouts this week",
 ]

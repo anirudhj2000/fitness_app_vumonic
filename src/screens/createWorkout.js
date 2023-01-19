@@ -157,29 +157,17 @@ const CreateWorkout = (props) => {
     props.navigation.pop();
   }
 
-  const HandleEditSubmit = () => {
-
-    let frequency = ""
-    frequencyRadio.map((item) => {
-        if(item.selected){
-            frequency = item.value
-        }
-    })
-
-    var finalObj = {}
-
-    finalObj["title"] = title;
-    finalObj["exercises"] = workoutList;
-    finalObj["frequency"] = frequency;
+  const HandleEditSubmit = (obj) => {
 
     let uid = auth().currentUser.uid;
+    console.log(obj);
 
     firestore()
     .collection('workoutsCollection')
     .doc(uid)
     .collection('workout')
     .doc(id)
-    .update(finalObj)
+    .update(obj)
     .then(() => {
         handleClear();
         props.navigation.navigate('Workouts')
@@ -231,11 +219,6 @@ const CreateWorkout = (props) => {
 
   //handle add data to firestore
   const PushToFireStore = async() => {
-
-    if(mode == 'edit'){
-        HandleEditSubmit();
-        return;
-    }
 
     let finalObj = {};
     let frequency = "";
@@ -312,6 +295,11 @@ const CreateWorkout = (props) => {
     finalObj["exercises"] = workoutList;
     finalObj["frequency"] = frequency;
     finalObj["week"] = week;
+
+    if(mode == 'edit'){
+        HandleEditSubmit(finalObj);
+        return;
+    }
     
     let uid = auth().currentUser.uid;
     console.log(uid);
@@ -322,7 +310,10 @@ const CreateWorkout = (props) => {
     .collection('workout')
     .add(finalObj)
     .then(() => {
-        handleClear();
+        dispatch({type : ACTIONS.CLEAR});
+        setTitle("");
+        setExercise("");
+        setExerciseList(Exercises);
         props.navigation.navigate('Workouts')
         console.log('User added!');
     });
