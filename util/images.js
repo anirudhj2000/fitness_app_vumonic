@@ -14,4 +14,5 @@ export default Images = {
     delete : require('../assets/delete.png'),
     minus : require('../assets/minus.png'),
     add_1 : require('../assets/add_1.png'),
+    edit :  require('../assets/edit.png'),
 }

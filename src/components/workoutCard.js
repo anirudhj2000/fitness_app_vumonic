@@ -8,18 +8,21 @@ const sw = Dimensions.get('window').width;
 
 const WorkoutCard = props => {
   return (
-    <TouchableOpacity>
-        
+    <TouchableOpacity onPress={props.onPress}>
         <View style={styles.cardContainer}>
-        <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} style={{height:'100%',width:'100%',borderRadius:4,padding:12}} colors={['#616161', '#9bc5c3']}>
+        <LinearGradient start={{x: 0, y: 0}} end={{x: 0.5, y: 2}}     
+            style={{height:'100%',width:'100%',borderRadius:4,padding:12}} 
+            colors={['#2C3E50', '#FD746C']}>
             <Text numberOfLines={1} style={styles.title}>{props.title}</Text>
             <View style={styles.time}>
-                <Image style={{height:12,width:12,tintColor:'#c7c7c7'}} source={Images.clock}/>
-                <Text style={{color:'#fff',fontSize:12}}>28 min</Text>
-            </View>
-            <View style={styles.circuitInfo}>
-                <Image source={Images.dumbell} style={{height:16,width:16,tintColor:'#c7c7c7'}}/>
-                <Text style={{color:'#fff'}}>x{9}</Text>
+                <View style={styles.timeStyle}>
+                    <Image source={Images.clock} style={{height:16,width:16,marginRight:8}}/>
+                    <Text style={{color:'#fff',fontSize:14}}>{props.time} mins</Text>
+                </View>
+                <View style={[styles.timeStyle,{marginTop:8}]}>
+                    <Image source={Images.dumbell} style={{height:16,width:16,marginRight:8}}/>
+                    <Text style={{color:'#fff',fontSize:14}}>{props.sets} sets</Text>
+                </View>
             </View>
         </LinearGradient>
         </View>
@@ -41,21 +44,27 @@ const styles = new StyleSheet.create({
     },
 
     title : {
-        fontSize:20,
+        fontSize:24,
         color:'#fff'
     },
 
     time : {
-        width:'50%',
+        width:'70%',
         borderRadius:4,
         marginVertical:8,
-        marginHorizontal:4,
-        flexDirection:'row',
+        flexDirection:'column',
         display:'flex',
-        alignItems:'center',
+        alignItems:'flex-start',
         backgroundColor:'rgba(0,0,0,0.3)',
-        padding:4,
-        justifyContent:'space-around'
+        padding:12,
+        justifyContent:'center',
+    },
+
+    timeStyle : {
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
     },
 
     circuitInfo:{

@@ -12,6 +12,7 @@ import { StyleSheet } from "react-native";
 import Signup from "../screens/singup";
 import Images from "../../util/images";
 import CreateWorkout from "../screens/createWorkout";
+import ViewWorkout from "../screens/viewWorkout";
 
 const WorkoutStackNavigator = createStackNavigator();
 const WorkoutStack = () => {
@@ -19,6 +20,7 @@ const WorkoutStack = () => {
         <WorkoutStackNavigator.Navigator defaultScreenOptions={Workouts}>
             <WorkoutStackNavigator.Screen name="Workouts" component={Workouts} options={{headerShown:false}}/>
             <WorkoutStackNavigator.Screen name="CreateWorkout" component={CreateWorkout} options={{headerShown:false}}/>
+            <WorkoutStackNavigator.Screen name="ViewWorkout" component={ViewWorkout} options={{headerShown:false}}/>
         </WorkoutStackNavigator.Navigator>
     )
 }

@@ -1,5 +1,5 @@
 import React ,{useEffect, useState}from 'react'
-import { SafeAreaView, View, Text, StyleSheet, FlatList, ImageBackground,TouchableOpacity,Dimensions} from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, FlatList,ActivityIndicator, ImageBackground,TouchableOpacity,Dimensions} from 'react-native';
 import WorkoutCard from '../components/workoutCard';
 import firestore from '@react-native-firebase/firestore';
 import Images from '../../util/images';
@@ -8,34 +8,20 @@ import Images from '../../util/images';
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
 
-const ACTIONS = {
-    INCREMENT: 'increment',
-    DECREMENT: 'decrement',
-    DELETE: 'delete',
-  }
-  
-  function reducer(count, action) {
-    switch (action.type) {
-      case ACTIONS.INCREMENT:
-        return count + 1
-      case ACTIONS.DECREMENT:
-        return count - 1
-      case ACTIONS.RESET:
-        return 0
-      case ACTIONS.CHANGE_COUNT:
-        return count + action.payload.amount
-      default:
-        return count
-    }
-  }
-
 const Workouts = (props) => {
   const [workoutList, setWorkoutList] = useState([]);
+  const [viewToggle, setViewToggle] = useState(true);
 
-  const getWorkouts = () => {
+  const handleWorkoutClick = (id) => {
+        props.navigation.navigate('ViewWorkout',{
+            id
+        })
+  }
+
+  const getWorkouts = async() => {
 
 
-    firestore()
+    await firestore()
     .collection('workouts')
     .get()
     .then(querySnapshot => {
@@ -51,38 +37,55 @@ const Workouts = (props) => {
             setWorkoutList(arr)
             console.log("arr", arr)
         });
+        
     });
+
+    setViewToggle(false)
   }
 
-  useEffect(() => { 
+  useEffect(() => {
+    setWorkoutList([]);
     getWorkouts();
+    
   },[])
 
   return (
-    <View style={{height:sh*0.92,width:'100%'}}>
-        <View style={styles.container}>
-                <View style={styles.title}>
-                    <Text style={{fontSize:32,color:'#fff'}}>Workouts</Text>
-                </View>
-                <View style={styles.homeCircuits} >
-                <FlatList
-                    data={workoutList}
-                    renderItem={({ item }) => (
-                    <WorkoutCard title={`${item.title}`}/>
-                    )}
-                    //Setting the number of column
-                    style={{flexGrow:1}}
-                    showsVerticalScrollIndicator={false}
-                    numColumns={2}
-                    keyExtractor={(item, index) => index}
-                />
-                </View>
-                
-        </View>
-        <TouchableOpacity style={{position:'absolute',right:0,bottom:0,marginHorizontal:'2.5%',marginVertical:'4%'}} onPress={() => {props.navigation.navigate('CreateWorkout')}}>
-            <ImageBackground style={{height:sh*0.075,width:sh*0.075}} source={Images.add} />
-        </TouchableOpacity>
+    
+    <View style={{height:sh*0.92,width:'100%',backgroundColor:'#0b1229'}}>
+        { viewToggle ?
+            <ActivityIndicator size={'large'} color={'#7F53AC'} style={{marginVertical:sh*0.05}}/>
+            : 
+            <>
+            <View style={styles.container}>
+                    <View style={styles.title}>
+                        <Text style={{fontSize:32,color:'#fff'}}>Workouts</Text>
+                    </View>
+                    <View style={styles.homeCircuits} >
+                    <FlatList
+                        data={workoutList}
+                        renderItem={({ item }) => (
+                        <WorkoutCard
+                            onPress={() => {handleWorkoutClick(item.id)}}
+                            time ={item.exercises.length}
+                            sets = {item.exercises.length}
+                            title={`${item.title}`}/>
+                        )}
+                        //Setting the number of column
+                        style={{flexGrow:1}}
+                        showsVerticalScrollIndicator={false}
+                        numColumns={2}
+                        keyExtractor={(item, index) => index}
+                    />
+                    </View>
+                    
+            </View>
+            <TouchableOpacity style={{position:'absolute',right:0,bottom:0,marginHorizontal:'2.5%',marginVertical:'4%'}} onPress={() => {props.navigation.navigate('CreateWorkout')}}>
+                <ImageBackground style={{height:sh*0.075,width:sh*0.075}} source={Images.add} />
+            </TouchableOpacity>
+            </>
+        }
    </View>
+  
   )
 }
 

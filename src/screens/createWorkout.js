@@ -15,6 +15,7 @@ const ACTIONS = {
     DECREMENT: 'decrement',
     DELETE: 'delete',
     ADD:'add',
+    OBJECT:'object',
     CLEAR:'clear'
   }
   
@@ -52,13 +53,17 @@ const ACTIONS = {
         return [...workoutList,action.payload]
       case ACTIONS.CLEAR:
         return [];
+      case ACTIONS.OBJECT:
+        return action.payload
       default:
         return workoutList
     }
   }
 
 const CreateWorkout = (props) => {
-  
+
+  let {id, mode} = props.route.params;
+  const [workouts, setWorkouts] = useState([]);
   const [workoutList, dispatch] = useReducer(reducer, [])
   const [toggle, setToggle] = useState(false);
   const [exercise, setExercise] = useState("");
@@ -82,8 +87,58 @@ const CreateWorkout = (props) => {
     console.log(frequencyRadio)
   }
 
+  useEffect(() => {
+    console.log(id)
+    GetObjectFromFirestore(id);
+  },[])
+
+  const GetObjectFromFirestore = async(id) => {
+
+    await firestore()
+    .collection('workouts')
+    .doc(id)
+    .get()
+    .then(documentSnapshot => {
+        console.log('User exists: ', documentSnapshot.exists);
+        if (documentSnapshot.exists) {
+          let temp = [];
+          temp = [...temp,...documentSnapshot.data().exercises]
+          console.log(temp);
+          setTitle(documentSnapshot.data().title)
+          dispatch({type:ACTIONS.OBJECT,payload:temp})
+        }
+    });
+  }
   const HandleBackPress = () => {
     props.navigation.pop();
+  }
+
+  const HandleEditSubmit = () => {
+
+    let frequency = ""
+    frequencyRadio.map((item) => {
+        if(item.selected){
+            frequency = item.value
+        }
+    })
+
+    var finalObj = {}
+
+    finalObj["title"] = title;
+    finalObj["exercises"] = workoutList;
+    finalObj["frequency"] = frequency;
+
+
+
+    firestore()
+    .collection('workouts')
+    .doc(id)
+    .update(finalObj)
+    .then(() => {
+        handleClear();
+        props.navigation.navigate('Workouts')
+        console.log('User added!');
+    });
   }
 
   const handleExerciseItemClick = (item) => {
@@ -131,6 +186,11 @@ const CreateWorkout = (props) => {
   //handle add data to firestore
   const PushToFireStore = async() => {
 
+    if(mode == 'edit'){
+        HandleEditSubmit();
+        return;
+    }
+
     let finalObj = {};
     let frequency = ""
     frequencyRadio.map((item) => {
@@ -176,6 +236,7 @@ const CreateWorkout = (props) => {
     }
     finalObj["title"] = title;
     finalObj["exercises"] = workoutList;
+    finalObj["frequency"] = frequency;
 
     firestore()
     .collection('workouts')
@@ -187,7 +248,24 @@ const CreateWorkout = (props) => {
     });
   }
 
+  const handleDelete = async() => {
+    await  firestore()
+    .collection('workouts')
+    .doc(id)
+    .delete()
+    .then(() => {
+        console.log('User deleted!');
+    });
+
+    props.navigation.navigate('Workouts')
+  }
+
   const handleClear = () => {
+
+    if(mode=='edit'){
+        handleDelete();
+        return;
+    }
     dispatch({type : ACTIONS.CLEAR});
     setTitle("");
     setExercise("");
@@ -278,7 +356,7 @@ const CreateWorkout = (props) => {
         </View>
         <View style={{position:'absolute',display:'flex',flexDirection:'row',bottom:80,right:0}}>
                 <TouchableOpacity onPress={() => {handleClear()}} style={{borderColor:'#de5f6c',borderWidth:1,paddingHorizontal:20,paddingVertical:12,borderRadius:4}}>
-                    <Text style={{color:'#de5f6c',fontSize:16}}>Clear</Text>
+                    <Text style={{color:'#de5f6c',fontSize:16}}>{mode=='edit'?'Delete':'Clear'}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => {PushToFireStore()}} style={{backgroundColor:'#5fde74',paddingHorizontal:20,paddingVertical:12,marginHorizontal:12,borderRadius:4}}>
                     <Text style={{color:'#fff',fontSize:16}}>Save</Text>
