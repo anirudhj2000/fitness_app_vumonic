@@ -25,7 +25,7 @@ const Splash = (props) => {
             >
                 <View style={{ height: sh*0.29, width: sh*0.29, alignItems: 'center', justifyContent: 'center',backgroundColor:'#09162b',borderRadius:16}}>
                     <Text style={{fontSize:128,color:'#fff'}}>V</Text>
-                    <Text style={{fontSize:24,color:'#fff'}}>Vunomic Assignment</Text>
+                    <Text style={{fontSize:20,color:'#fff'}}>Vunomic Assignment</Text>
                 </View>
             </LinearGradient>
         </View>

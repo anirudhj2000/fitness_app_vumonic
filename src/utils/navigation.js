@@ -11,9 +11,20 @@ import Login from "../screens/login";
 import { StyleSheet } from "react-native";
 import Signup from "../screens/singup";
 import Images from "../../util/images";
+import CreateWorkout from "../screens/createWorkout";
+
+const WorkoutStackNavigator = createStackNavigator();
+const WorkoutStack = () => {
+    return(
+        <WorkoutStackNavigator.Navigator defaultScreenOptions={Workouts}>
+            <WorkoutStackNavigator.Screen name="Workouts" component={Workouts} options={{headerShown:false}}/>
+            <WorkoutStackNavigator.Screen name="CreateWorkout" component={CreateWorkout} options={{headerShown:false}}/>
+        </WorkoutStackNavigator.Navigator>
+    )
+}
+
 
 const BottomTab = createBottomTabNavigator();
-
 const BottomTabContainer = () => {
     return(
         <BottomTab.Navigator 
@@ -24,8 +35,8 @@ const BottomTabContainer = () => {
                 {
                     position: 'absolute',
                     bottom:0,
-                    height : 70,
-                    backgroundColor:'#0a0929'
+                    height : '8%',
+                    backgroundColor:'#0b1229'
                 },
               }}>
             <BottomTab.Screen name="Home" component={Home} options={{headerShown:false,
@@ -36,10 +47,10 @@ const BottomTabContainer = () => {
                             resizeMode='contain'
                             style={focused?styles.iconStyleX:styles.iconStyle}
                             />
-                        <Text style={{fontSize:12,color:focused?'#f76392':'#fff'}}>Notification</Text>
+                        <Text style={{fontSize:12,color:focused?'#f76392':'#fff',marginTop:2}}>Home</Text>
                     </View>
                 ) }} />
-            <BottomTab.Screen name="Workouts"component={Workouts}  options={{headerShown:false,
+            <BottomTab.Screen name="Workouts" component={WorkoutStack}  options={{headerShown:false,
                tabBarIcon : ({focused}) => (
                     <View style={styles.barView}>
                         <Image 
@@ -47,7 +58,7 @@ const BottomTabContainer = () => {
                             resizeMode='contain'
                             style={focused?styles.iconStyleX:styles.iconStyle}
                             />
-                        <Text style={{fontSize:12,color:focused?'#f76392':'#fff'}}>Photo Upload</Text>
+                        <Text style={{fontSize:12,color:focused?'#f76392':'#fff',marginTop:2}}>Workouts</Text>
                     </View>
                 ) }} />
             <BottomTab.Screen name="Calendar" component={Calendar} options={{headerShown:false,
@@ -58,7 +69,7 @@ const BottomTabContainer = () => {
                             resizeMode='contain'
                             style={focused?styles.iconStyleX:styles.iconStyle}
                             />
-                        <Text style={{fontSize:12,color:focused?'#f76392':'#fff'}}>Chat</Text>
+                        <Text style={{fontSize:12,color:focused?'#f76392':'#fff',marginTop:2}}>Calendar</Text>
                     </View>
                 ) }} />
         </BottomTab.Navigator>
@@ -72,7 +83,7 @@ const StackNavigator = () => {
             <Stack.Screen name='Splash' component={Splash} options={{headerShown:false}}/>
             <Stack.Screen name='Login' component={Login} options={{headerShown:false}}/>
             <Stack.Screen name='Signup' component={Signup} options={{headerShown:false}}/>
-            {/* <Stack.Screen name='App' component={BottomTabContainer} options={{headerShown:false}}/> */}
+            <Stack.Screen name='App' component={BottomTabContainer} options={{headerShown:false}}/>
         </Stack.Navigator>
     )
 }
