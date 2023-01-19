@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "244216474680",
+    "project_id": "vumonicassign",
+    "storage_bucket": "vumonicassign.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244216474680:android:ed56046316df7f2ae30acd",
+        "android_client_info": {
+          "package_name": "com.fitness_app_numonic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244216474680-5v0hdnaghd4ks1iq1su8e0ugoufbbrud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fitness_app_numonic",
+            "certificate_hash": "fe485ab41f521ff673fc3ee38e31fee3e8e3feb4"
+          }
+        },
+        {
+          "client_id": "244216474680-q76m73dd1dqauc9c7nlmdtffiut393tq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjhfWPHNqzff3BSRHB7tIKOwLeAqAtppA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244216474680-q76m73dd1dqauc9c7nlmdtffiut393tq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

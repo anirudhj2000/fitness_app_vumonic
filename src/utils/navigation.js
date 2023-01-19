@@ -9,7 +9,8 @@ import {View, Image,Text} from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import Login from "../screens/login";
 import { StyleSheet } from "react-native";
-import Signup from "../screens/signup";
+import Signup from "../screens/singup";
+import Images from "../../util/images";
 
 const BottomTab = createBottomTabNavigator();
 
@@ -31,7 +32,7 @@ const BottomTabContainer = () => {
                tabBarIcon : ({focused}) => (
                     <View style={styles.barView}>
                         <Image 
-                            source={require('../assets/bell_1.png')}
+                            source={focused?Images.home:Images.home_alt}
                             resizeMode='contain'
                             style={focused?styles.iconStyleX:styles.iconStyle}
                             />
@@ -42,7 +43,7 @@ const BottomTabContainer = () => {
                tabBarIcon : ({focused}) => (
                     <View style={styles.barView}>
                         <Image 
-                            source={require('../assets/camera.png')}
+                            source={focused?Images.routine:Images.routine_alt}
                             resizeMode='contain'
                             style={focused?styles.iconStyleX:styles.iconStyle}
                             />
@@ -53,7 +54,7 @@ const BottomTabContainer = () => {
                tabBarIcon : ({focused}) => (
                     <View style={styles.barView}>
                         <Image 
-                            source={require('../assets/chat.png')}
+                            source={focused?Images.calendar:Images.calendar_alt}
                             resizeMode='contain'
                             style={focused?styles.iconStyleX:styles.iconStyle}
                             />
@@ -71,7 +72,7 @@ const StackNavigator = () => {
             <Stack.Screen name='Splash' component={Splash} options={{headerShown:false}}/>
             <Stack.Screen name='Login' component={Login} options={{headerShown:false}}/>
             <Stack.Screen name='Signup' component={Signup} options={{headerShown:false}}/>
-            <Stack.Screen name='App' component={BottomTabContainer} options={{headerShown:false}}/>
+            {/* <Stack.Screen name='App' component={BottomTabContainer} options={{headerShown:false}}/> */}
         </Stack.Navigator>
     )
 }

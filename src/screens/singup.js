@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {View,Text,StyleSheet,Dimensions,TextInput,TouchableOpacity,Image} from 'react-native'
 import auth from '@react-native-firebase/auth';
+import Images from '../../util/images';
 
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
@@ -8,7 +9,6 @@ const sw = Dimensions.get('window').width;
 const Signup = (props) => {
     const [email, setEmail] = useState("");
     const [errorStatus, setErrorStatus] = useState(false);
-    const [errorMsgMail, setErrorMsgMail] = useState("Enter valid email!");
     const [errorStatusPassword, setErrorStatusPassword] = useState(false);
     const [errorStatusPassword2,setErrorStatusPassword2] = useState(false);
     const [password, setPassword] = useState("");
@@ -101,7 +101,7 @@ const Signup = (props) => {
         <View style={styles.body}>
             <View style={styles.titleBody}>
                 <TouchableOpacity onPress={() => {props.navigation.navigate('Login')}}>
-                    <Image source={require('../assets/left-arrow.png')} style={{height:24,width:24,marginRight:'3%',tintColor:'#fff'}}/>
+                    <Image source={Images.left_arrow} style={{height:24,width:24,marginRight:'3%',tintColor:'#fff'}}/>
                 </TouchableOpacity>
                 
                 <Text style={styles.titleText}>Sign up</Text>
@@ -110,7 +110,7 @@ const Signup = (props) => {
                 <View style={[styles.inputView]}>
                     <View style={styles.labelView}>
                         <Text style={styles.label}>Email</Text>
-                        {errorStatus && <Text style={styles.errorTag}>{errorMsgMail}</Text>}
+                        {errorStatus && <Text style={styles.errorTag}>{`Enter valid email`}</Text>}
                     </View>
                     <TextInput style={[styles.inputBox,{borderRadius:4}]} placeholder="Enter Email" value={email} onChangeText={(val) => {handleEmailChange(val)}}/>
                 </View>
@@ -252,14 +252,11 @@ const styles = new StyleSheet.create({
         zIndex:2,
         backgroundColor:'#0b3019',
         borderWidth:1.5,
-        marginVertical:'2%',
-        position:'absolute',
-        bottom:0,
+        marginVertical:'5%',
         borderColor:'#048f37',
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
-        marginBottom:'10%',
-        borderRadius:8,
+        borderRadius:4,
     }
 })

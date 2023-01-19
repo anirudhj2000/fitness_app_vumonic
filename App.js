@@ -9,15 +9,10 @@ import React from 'react';
 import { SafeAreaView } from 'react-native';
 import NavContainer from './src/utils/navigation';
 
-
-
 function App(){
   return (
-      <SafeAreaView>
-        <NavContainer/>
-      </SafeAreaView>
+      <NavContainer/>
   );
 }
-
 
 export default App;

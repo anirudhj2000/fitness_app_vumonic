@@ -72,7 +72,7 @@ const handleLogin = () => {
             start={{x: 0.0, y: 1.0}} end={{x: 1.0, y: 1.0}}
             style={{ height: sh*0.1, width: sh*0.1, alignItems: 'center', justifyContent: 'center',borderRadius:6}}>
                 <View style={{ height: sh*0.09, width: sh*0.09, alignItems: 'center', justifyContent: 'center',backgroundColor:'#09162b',borderRadius:6}}>
-                    <Text style={{fontSize:48,color:'#fff'}}>N</Text>
+                    <Text style={{fontSize:48,color:'#fff'}}>V</Text>
                 </View>
             </LinearGradient>
         </View>
