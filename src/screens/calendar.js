@@ -86,17 +86,23 @@ const Calendar = () => {
                             <View style={styles.weekday}>
                                 <Text style={{color:'#c7c7c7'}}>{item.val}</Text>
                                 <View style={{borderBottomWidth:1,borderBottomColor:'#c7c7c7',width:'100%'}}/>
-                                <ScrollView horizontal={true} style={{width:'100%'}}>
-                                    {
-                                        item.workout ? 
-                                        item.workout.map((item1) => {
-                                            
-                                            return(
-                                                <CalendarCard title={item1.title}/>
-                                            )
-                                        }) : null
-                                    }
-                                </ScrollView>
+                                {
+                                        item.workout.length>0 ? 
+                                        <ScrollView horizontal={true} style={{width:'100%'}}>
+                                            {
+                                                item.workout.map((item1) => {
+                                                    
+                                                    return(
+                                                        <CalendarCard title={item1.title}/>
+                                                    )
+                                                })
+                                            }
+                                        </ScrollView>
+                                        : 
+                                        
+                                        <Text style={{color:'#fff',marginVertical:8}}>No workouts</Text>
+                            
+                                }
                             </View>
                         )
                     })

@@ -14,6 +14,7 @@ const Home = (props) => {
   const [viewToggle, setViewToggle] = useState(true);
   const [workouts, setWorkout] = useState(0);
   const [workoutList, setWorkoutList] = useState([]);
+  const [todaysWorkout, setTodaysWorkout] = useState(0);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -31,6 +32,16 @@ const Home = (props) => {
             .get()
             .then((querySnapshot) => {
                 setWorkout(querySnapshot.size)
+                let arr = []
+                querySnapshot.forEach(documentSnapshot => {
+                    console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
+                    tempObj = documentSnapshot.data();
+                    tempObj['id'] = documentSnapshot.id
+                    arr = [...arr,tempObj]
+                    setWorkoutList(arr)
+                    console.log("arr", arr)
+                });
+                getTodaysWorkout()
             })
 
     setViewToggle(false);
@@ -39,7 +50,21 @@ const Home = (props) => {
   }
 
   const getTodaysWorkout = () => {
+    let arr = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    const d = new Date().getDay();
+    let day = arr[d];
 
+    var count =0;
+
+    workoutList.forEach((item) => {
+        console.log(item)
+        if(item.week.indexOf(day)>-1){
+            count++;
+        }
+    })
+
+    setTodaysWorkout(count);
+    
   }
 
   const handleLogout = () => {
@@ -80,13 +105,12 @@ const Home = (props) => {
                 <View style={[styles.stats,{backgroundColor:'#0e3963'}]}>
                     <Text style={{color:'#fff',fontSize:24}}>Calendar</Text>
                     <Text style={{color:'#c7c7c7'}}>Upcoming workout</Text>
-                    <View style={{width:'95%',flexDirection:'row',justifyContent:'space-between',alignItems:'flex-end',marginTop:'5%',alignSelf:'center'}}>
-                        <View style={{width:'30%',height:sh*0.09,backgroundColor:'#c7c7c7',borderRadius:4,justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{color:'#000',fontSize:32}}>{workouts}</Text>
-                            <Text>{'Workouts'}</Text>
+                    <View style={{width:'95%',flexDirection:'row',justifyContent:'space-between',alignItems:'flex-end',marginTop:'5%',alignSelf:'center',height:'auto'}}>
+                        <View style={{paddingVertical:12,borderRadius:8,paddingHorizontal:12,backgroundColor:'#e67b60'}}>
+                        <Text style={{fontSize:20,color:'#fff'}}>{todaysWorkout >0? `${todaysWorkout} Workout${todaysWorkout>1?`s`:``} today`: `No Workout today`}</Text>
                         </View>
-                        <TouchableOpacity  onPress={() => {props.navigation.navigate('Workouts')}}>
-                            <Text style={{color:'#0b78e6', textDecorationLine:'underline'}}>To workouts {`>>>`}</Text>
+                        <TouchableOpacity style={{marginTop:'15%'}} onPress={() => {props.navigation.navigate('Workouts')}}>
+                            <Text style={{color:'#0b78e6', textDecorationLine:'underline'}}>To calendar {`>>>`}</Text>
                         </TouchableOpacity>
                     </View>
                     
