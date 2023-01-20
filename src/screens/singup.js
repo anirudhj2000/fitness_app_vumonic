@@ -187,21 +187,21 @@ const Signup = (props) => {
                         <Text style={styles.label}>Email</Text>
                         {errorStatus && <Text style={styles.errorTag}>{`Enter valid email`}</Text>}
                     </View>
-                    <TextInput style={[styles.inputBox,{borderRadius:4}]} placeholder="Enter Email" value={email} onChangeText={(val) => {handleEmailChange(val)}}/>
+                    <TextInput style={[styles.inputBox,{borderRadius:4}]} placeholder="Enter Email" value={email} onChangeText={(val) => {handleEmailChange(val)}} placeholderTextColor={'#000'}/>
                 </View>
                 <View style={[styles.inputView]}>
                     <View style={styles.labelView}>
                         <Text style={styles.label}>Password</Text>
                         {errorStatusPassword && <Text style={styles.errorTag}>{"Enter valid password"}</Text>}
                     </View>
-                    <TextInput secureTextEntry={true} value={password} onChangeText={(val) => handlePasswordChange(val)} style={[styles.inputBox,{borderRadius:4}]} placeholder="Enter Password" />
+                    <TextInput secureTextEntry={true} value={password} onChangeText={(val) => handlePasswordChange(val)} style={[styles.inputBox,{borderRadius:4}]} placeholder="Enter Password" placeholderTextColor={'#000'} />
                 </View>
                 <View style={[styles.inputView]}>
                     <View style={styles.labelView}>
                         <Text style={styles.label}>Confirm password</Text>
                         {errorStatusPassword2 && <Text style={styles.errorTag}>{errorMsgMail}</Text>}
                     </View>
-                    <TextInput secureTextEntry={true} value={confirmPassword} onChangeText={(text) => {setConfirmPassword(text)}} style={[styles.inputBox,{borderRadius:4}]} placeholder="Enter Password" />
+                    <TextInput secureTextEntry={true} value={confirmPassword} onChangeText={(text) => {setConfirmPassword(text)}} style={[styles.inputBox,{borderRadius:4}]} placeholder="Enter Password" placeholderTextColor={'#000'}/>
                 </View>
 
                 

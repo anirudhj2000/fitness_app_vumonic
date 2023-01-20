@@ -23,6 +23,7 @@ const Calendar = () => {
     setWorkoutList([])
   },[isFocused])
 
+
   const getWeeklyData = async() => {
      let uid = auth().currentUser.uid;
 
@@ -45,10 +46,10 @@ const Calendar = () => {
                 })
             }).catch((err) => console.log(err));
 
-    setViewToggle(false)
+    
   }
 
-  const getWeekObj = () => {
+  const getWeekObj = async() => {
     let temp = weekList
     for(let i=0;i<workoutList.length;i++){
         temp.forEach((item) => {

@@ -194,11 +194,11 @@ const handleLogin = async() => {
                     <Text style={styles.label}>Email</Text>
                     {errorStatus && <Text style={styles.errorTag}>{errorMsgMail}</Text>}
                 </View>
-                <TextInput style={[styles.inputBox,{borderRadius:4}]} value={email} onChangeText={(val) => {handleEmailChange(val)}} placeholder="Enter Email" />
+                <TextInput style={[styles.inputBox,{borderRadius:4}]} value={email} onChangeText={(val) => {handleEmailChange(val)}} placeholder="Enter Email" placeholderTextColor={'#000'} />
             </View>
             <View style={[styles.inputView]}>
                 <Text style={styles.label}>Password</Text>
-                <TextInput secureTextEntry={true} style={[styles.inputBox,{borderRadius:4}]} value={password} onChangeText={(val) => setPassword(val)} placeholder="Enter Password" />
+                <TextInput secureTextEntry={true} style={[styles.inputBox,{borderRadius:4}]} value={password} onChangeText={(val) => setPassword(val)} placeholder="Enter Password" placeholderTextColor={'#000'} />
                 {/* <TouchableOpacity>
                     <Text style={{textDecorationLine:'underline',color:'#bdbdbd'}}>Forgot password?</Text>
                 </TouchableOpacity> */}
