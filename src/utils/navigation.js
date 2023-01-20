@@ -82,7 +82,7 @@ const Stack = createStackNavigator();
 const StackNavigator = () => {
     return(
         <Stack.Navigator>
-            <Stack.Screen name='Splash' component={Splash} options={{headerShown:false}}/>
+            {/* <Stack.Screen name='Splash' component={Splash} options={{headerShown:false}}/> */}
             <Stack.Screen name='Login' component={Login} options={{headerShown:false}}/>
             <Stack.Screen name='Signup' component={Signup} options={{headerShown:false}}/>
             <Stack.Screen name='App' component={BottomTabContainer} options={{headerShown:false}}/>

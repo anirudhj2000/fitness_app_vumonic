@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
+import { useIsFocused } from "@react-navigation/native";
 
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
@@ -16,6 +17,7 @@ const Login = (props) => {
   const [password,setPassword] = useState("");
   const [errorStatus, setErrorStatus] = useState(false);
   const [errorMsgMail, setErrorMsgMail] = useState("Enter valid email!");
+  const isFocused = useIsFocused();
 
   const validateEmail = (email) => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -27,6 +29,12 @@ const Login = (props) => {
         return true;
     }
 }
+
+useEffect(() => {
+    setEmail("");
+    setPassword("");
+    checkUserExists()
+},[isFocused])
 
 useEffect(() => {
     const backAction = () => {
@@ -57,21 +65,18 @@ const handleEmailChange = (email) => {
     console.log(email);
 }
 
-useEffect(() => {
-    setEmail("");
-    setPassword("");
-    checkUserExists()
-},[])
+
 
 const checkUserExists = () => {
+    // setViewToggle(false)
     console.log("check if user exists")
         auth().onAuthStateChanged((user) => {
         if (user) {
             console.log("user exists",user)
             props.navigation.navigate('App',{screen:'Home'})
-            // setViewToggle(false);
+            setViewToggle(false);
         }
-  });  
+    });  
   setViewToggle(false);
 }
 
@@ -272,7 +277,8 @@ const styles = new StyleSheet.create({
     inputBox : {
         marginVertical:4,
         backgroundColor:'#fff',
-        paddingHorizontal:8
+        paddingHorizontal:8,
+        color:'#000',
     },
 
     labelView : {

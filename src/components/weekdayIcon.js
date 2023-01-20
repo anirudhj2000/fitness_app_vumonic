@@ -4,7 +4,7 @@ import { View, Text,TouchableOpacity} from 'react-native';
 const WeekdayIcon = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{height:24,width:24,borderRadius:24,backgroundColor:props.statusColor,justifyContent:'center',alignItems:'center'}}>
-        <Text style={{fontSize:12}}>{props.weekday}</Text>
+        <Text style={{fontSize:12,color:'#c7c7c7'}}>{props.weekday}</Text>
     </TouchableOpacity>
   )
 }

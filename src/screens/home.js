@@ -95,7 +95,7 @@ const Home = (props) => {
                     <View style={{width:'95%',flexDirection:'row',justifyContent:'space-between',alignItems:'flex-end',marginTop:'5%',alignSelf:'center'}}>
                         <View style={{width:'30%',height:sh*0.1,backgroundColor:'#c7c7c7',borderRadius:4,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{color:'#000',fontSize:32}}>{workouts}</Text>
-                            <Text>{'Workouts'}</Text>
+                            <Text style={{color:'#000'}}>{'Workouts'}</Text>
                         </View>
                         <TouchableOpacity  onPress={() => {props.navigation.navigate('Workouts')}}>
                             <Text style={{color:'#0b78e6', textDecorationLine:'underline'}}>To workouts {`>>>`}</Text>
@@ -116,7 +116,7 @@ const Home = (props) => {
                     
                 </View>
                 <TouchableOpacity onPress={() => {handleLogout()}}  style={[styles.stats,{marginBottom:'20%',height:sh*0.07,justifyContent:'center',backgroundColor:'#fff'}]}>
-                    <Text style={{fontSize:24,marginHorizontal:'5%'}}>Logout</Text>
+                    <Text style={{fontSize:24,marginHorizontal:'5%',color:'#000'}}>Logout</Text>
                 </TouchableOpacity>
             </>
         }

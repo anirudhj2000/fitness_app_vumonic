@@ -54,13 +54,27 @@ const Signup = (props) => {
 
     const handleSignup = () => {
 
-        // if(!validatePassword(password)){
-        //     return;
-        // }
+        if(!validateEmail(email)){
+            Toast.show({
+                type: 'error',
+                text1: 'Error!',
+                text2 : "Please enter valid email",
+                position:'bottom',
+                visibilityTime:2000
+            });
+        }
 
-        // if(!validateEmail(email)){
-        //     return;
-        // }
+        if(!validatePassword(password)){
+            Toast.show({
+                type: 'error',
+                text1: 'Error!',
+                text2 : "Please enter valid password",
+                position:'bottom',
+                visibilityTime:2000
+            });
+            return;
+        }
+
         setViewToggle(true)
         if(password != confirmPassword){
             setErrorStatusPassword2(true);
@@ -272,7 +286,8 @@ const styles = new StyleSheet.create({
     inputBox : {
         marginVertical:4,
         backgroundColor:'#fff',
-        paddingHorizontal:8
+        paddingHorizontal:8,
+        color:'#000',
     },
 
     loginButton : {

@@ -17,7 +17,7 @@ const ExerciseItemCard = (props) => {
                     <TouchableOpacity onPress={props.onPressSubtract}>
                         <Image source={Images.minus} style={{height:24,width:24}}/>
                     </TouchableOpacity>
-                    <Text style={{width:24,textAlign:'center',fontSize:16}}>{props.sets}</Text>
+                    <Text style={{width:24,textAlign:'center',fontSize:16,color:'#000'}}>{props.sets}</Text>
                     <TouchableOpacity onPress={props.onPressAdd} >
                         <Image source={Images.add_1} style={{height:24,width:24}}/>
                     </TouchableOpacity>

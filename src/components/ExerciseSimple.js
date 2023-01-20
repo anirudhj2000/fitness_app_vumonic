@@ -13,8 +13,8 @@ const ExerciseSimple = (props) => {
         <View style={{flexDirection:'row',alignItems:'center'}}>
             {/* <Text>Sets</Text> */}
             <View style={{flexDirection:'column',marginTop:'2.5%',marginHorizontal:'5%'}}>
-                <Text style={{fontSize:12}}>Sets</Text>
-                <Text style={{width:24,textAlign:'center',fontSize:18}}>{props.sets}</Text>
+                <Text style={{fontSize:12,color:'#000'}}>Sets</Text>
+                <Text style={{width:24,textAlign:'center',fontSize:18,color:'#000'}}>{props.sets}</Text>
             </View>    
         </View>
     </View>
