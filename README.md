@@ -12,7 +12,9 @@ EasyFit is workout tracking application , which enables users to create workouts
 - Delete Workout
 - View Calendar for workout
 
+## Authenicatio and Storage
 
+Made use of the ```@react-native-firebase``` library for authentication ans storing user data.
 
 ## Running the project
 
