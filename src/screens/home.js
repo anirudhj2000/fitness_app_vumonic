@@ -23,7 +23,6 @@ const Home = (props) => {
 
   const getWorkoutSize = async() => {
      let uid = auth().currentUser.uid;
-     console.log(uid);
 
      await firestore()
             .collection('workoutsCollection')
@@ -34,7 +33,6 @@ const Home = (props) => {
                 setWorkout(querySnapshot.size)
                 let arr = []
                 querySnapshot.forEach(documentSnapshot => {
-                    console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
                     tempObj = documentSnapshot.data();
                     tempObj['id'] = documentSnapshot.id
                     arr = [...arr,tempObj]

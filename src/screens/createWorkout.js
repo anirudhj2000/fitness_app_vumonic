@@ -26,7 +26,6 @@ const ACTIONS = {
     switch (action.type) {
       case ACTIONS.INCREMENT:
         return workoutList.map((item) => {
-            console.log("increment",item.id,action.payload.id);
             if(item.id == action.payload.id){
                 return {...item, sets : item.sets+1}
             }
@@ -34,7 +33,6 @@ const ACTIONS = {
         })
       case ACTIONS.DECREMENT:
         return workoutList.map((item) => {
-            console.log("decrement",item.id,action.payload.id);
             if(item.id == action.payload.id){
                 if(item.sets>0){
                     return {...item, sets : item.sets-1}
@@ -47,7 +45,6 @@ const ACTIONS = {
         })
       case ACTIONS.DELETE:
         return workoutList.filter((item) => {
-            console.log()
             if(item.id != action.payload.id){
                 return item;
             }
@@ -68,7 +65,6 @@ const ACTIONS = {
         case 'toggle':
             return weekList.map((item) => {
                 if(item.title == action.payload.title){
-                    console.log("sup")
                     return {...item, check : !item.check}
                 }
                 return item;
@@ -143,7 +139,6 @@ const CreateWorkout = (props) => {
     .doc(id)
     .get()
     .then(documentSnapshot => {
-        console.log('User exists: ', documentSnapshot.exists);
         if (documentSnapshot.exists) {
           let temp = [];
           temp = [...temp,...documentSnapshot.data().exercises]
@@ -225,7 +220,6 @@ const CreateWorkout = (props) => {
     let week = [];
 
     if(!title){
-        console.log("style veru")
         Toast.show({
             type: 'error',
             text1: 'Error!',
@@ -244,7 +238,6 @@ const CreateWorkout = (props) => {
     })
 
     if(!frequency){
-        console.log("style veru")
         Toast.show({
             type: 'error',
             text1: 'Error!',
@@ -265,7 +258,6 @@ const CreateWorkout = (props) => {
     console.log("week",week)
 
     if(!week.length){
-        console.log("style veru")
         Toast.show({
             type: 'error',
             text1: 'Error!',
@@ -280,7 +272,6 @@ const CreateWorkout = (props) => {
     console.log("workout list", workoutList)
 
     if(!workoutList.length>0){
-        console.log("style verusdfghxs")
         Toast.show({
             type: 'error',
             text1: 'Error!',
@@ -431,7 +422,6 @@ const CreateWorkout = (props) => {
                 }) : null
             }
             </View>
-           
         </View>
         <View style={{position:'absolute',display:'flex',flexDirection:'row',bottom:80,right:0}}>
                 <TouchableOpacity onPress={() => {handleClear()}} style={{borderColor:'#de5f6c',borderWidth:1,paddingHorizontal:20,paddingVertical:12,borderRadius:4}}>

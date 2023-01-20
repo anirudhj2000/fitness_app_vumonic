@@ -45,8 +45,7 @@ const Calendar = () => {
                     getWeekObj();
                 })
             }).catch((err) => console.log(err));
-
-    
+    setViewToggle(false)
   }
 
   const getWeekObj = async() => {

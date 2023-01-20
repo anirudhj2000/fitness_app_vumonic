@@ -69,7 +69,6 @@ const handleEmailChange = (email) => {
 
 const checkUserExists = () => {
     // setViewToggle(false)
-    console.log("check if user exists")
         auth().onAuthStateChanged((user) => {
         if (user) {
             console.log("user exists",user)
@@ -116,8 +115,6 @@ const handleLogin = async() => {
         setViewToggle(false)
         return;
     }
-    console.log("email" + email);
-    console.log("password" + password);
     if(email!=null && password!=null){
         await auth()
     .signInWithEmailAndPassword(email, password)

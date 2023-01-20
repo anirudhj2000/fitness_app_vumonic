@@ -79,11 +79,8 @@ const Signup = (props) => {
         if(password != confirmPassword){
             setErrorStatusPassword2(true);
             setErrorMsgPass("Passwords do not match");
-            console.log("Passwords match "+password+confirmPassword)
             return;
         }
-        console.log("email" + email);
-        console.log("password" + password);
         if(email!=null && password!=null){
             auth()
         .createUserWithEmailAndPassword(email, password)

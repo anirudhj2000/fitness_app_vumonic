@@ -38,7 +38,6 @@ const ViewWorkout = (props) => {
     exercises = workout.exercises.length;
 
     time = sets*5,
-    console.log("totals",sets,exercises,time)
     setTotals({
         sets : sets,
         exercises : exercises,
@@ -47,7 +46,6 @@ const ViewWorkout = (props) => {
   }
 
   const handleEdit = () => {
-    console.log('edit',id)
     props.navigation.navigate('CreateWorkout',{
         id : id,
         mode : 'edit'
@@ -55,7 +53,6 @@ const ViewWorkout = (props) => {
   }
 
   const getDocInfo = async(id) => {
-    console.log("caleed")
 
     let uid = auth().currentUser.uid
     await firestore()
@@ -108,7 +105,6 @@ const ViewWorkout = (props) => {
                 <View style={{width:'90%',alignSelf:'center',marginVertical:'2.5%'}}>
                 {
                     workout.exercises.map((item,key) => {
-                        console.log("hus",item.title)
                         return(
                             <ExerciseSimple title={item.title} sets={item.sets}/>
                         )
