@@ -12,6 +12,8 @@ EasyFit is workout tracking application , which enables users to create workouts
 - Delete Workout
 - View Calendar for workout
 
+
+
 ## Running the project
 
 - Clone this project
