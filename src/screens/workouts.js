@@ -75,7 +75,7 @@ const Workouts = (props) => {
                         renderItem={({ item }) => (
                         <WorkoutCard
                             onPress={() => {handleWorkoutClick(item.id)}}
-                            time ={item.exercises.length}
+                            time ={item.exercises.length*5}
                             sets = {item.exercises.length}
                             title={`${item.title}`}/>
                         )}

@@ -21,7 +21,7 @@ const WorkoutCard = props => {
                 </View>
                 <View style={[styles.timeStyle,{marginTop:8}]}>
                     <Image source={Images.dumbell} style={{height:16,width:16,marginRight:8}}/>
-                    <Text style={{color:'#fff',fontSize:14}}>{props.sets} sets</Text>
+                    <Text style={{color:'#fff',fontSize:14}}>{props.sets} exercises</Text>
                 </View>
             </View>
         </LinearGradient>
@@ -49,7 +49,7 @@ const styles = new StyleSheet.create({
     },
 
     time : {
-        width:'70%',
+        width:'80%',
         borderRadius:4,
         flexDirection:'column',
         display:'flex',

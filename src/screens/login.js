@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text,TextInput, Dimensions, Animated,StyleSheet,ActivityIndicator} from 'react-native';
+import { View, Text,TextInput, Dimensions, Animated,StyleSheet,ActivityIndicator,BackHandler,Alert} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
@@ -27,6 +27,28 @@ const Login = (props) => {
         return true;
     }
 }
+
+useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to exit", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => {backHandler.remove()}
+    
+  },[])
 
 const handleEmailChange = (email) => {
     const validateStatus = validateEmail(email);
@@ -65,6 +87,30 @@ const handleLogin = async() => {
 
     setViewToggle(true);
 
+    if(!email.length>0){
+        Toast.show({
+            type: 'error',
+            text1: 'Error!',
+            text2 : 'That email address is invalid!',
+            position:'bottom',
+            visibilityTime:2000
+        });
+        setViewToggle(false)
+        return;
+        
+    }
+
+    if(!password.length>0){
+        Toast.show({
+            type: 'error',
+            text1: 'Error!',
+            text2 : 'Please enter the password',
+            position:'bottom',
+            visibilityTime:2000
+        });
+        setViewToggle(false)
+        return;
+    }
     console.log("email" + email);
     console.log("password" + password);
     if(email!=null && password!=null){

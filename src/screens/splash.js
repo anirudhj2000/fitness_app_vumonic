@@ -2,12 +2,17 @@ import React from 'react'
 import { useEffect} from 'react';
 import { View,Text,Animated,StyleSheet,ActivityIndicator,Dimensions} from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
+import { useIsFocused } from "@react-navigation/native";
 
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
 
 const Splash = (props) => {
+    const isFocused = useIsFocused();
 
+  useEffect(() => {    
+        props.navigation.navigate('Login')
+    },[isFocused])
 
   useEffect(() => {
     setTimeout(() => {
