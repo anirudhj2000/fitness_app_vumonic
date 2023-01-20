@@ -109,7 +109,7 @@ const Home = (props) => {
                         <View style={{paddingVertical:12,borderRadius:8,paddingHorizontal:12,backgroundColor:'#e67b60'}}>
                         <Text style={{fontSize:20,color:'#fff'}}>{todaysWorkout >0? `${todaysWorkout} Workout${todaysWorkout>1?`s`:``} today`: `No Workout today`}</Text>
                         </View>
-                        <TouchableOpacity style={{marginTop:'15%'}} onPress={() => {props.navigation.navigate('Workouts')}}>
+                        <TouchableOpacity style={{marginTop:'15%'}} onPress={() => {props.navigation.navigate('Calendar')}}>
                             <Text style={{color:'#0b78e6', textDecorationLine:'underline'}}>To calendar {`>>>`}</Text>
                         </TouchableOpacity>
                     </View>

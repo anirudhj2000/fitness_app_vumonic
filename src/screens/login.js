@@ -47,7 +47,7 @@ useEffect(() => {
     );
 
     return () => {backHandler.remove()}
-    
+
   },[])
 
 const handleEmailChange = (email) => {
@@ -194,9 +194,9 @@ const handleLogin = async() => {
             <View style={[styles.inputView]}>
                 <Text style={styles.label}>Password</Text>
                 <TextInput secureTextEntry={true} style={[styles.inputBox,{borderRadius:4}]} value={password} onChangeText={(val) => setPassword(val)} placeholder="Enter Password" />
-                <TouchableOpacity>
+                {/* <TouchableOpacity>
                     <Text style={{textDecorationLine:'underline',color:'#bdbdbd'}}>Forgot password?</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
         <TouchableOpacity  style={styles.loginButton} onPress={() => {handleLogin()}}>
