@@ -1,15 +1,17 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { View, Text,TextInput, Dimensions, Animated,StyleSheet} from 'react-native';
+import { View, Text,TextInput, Dimensions, Animated,StyleSheet,ActivityIndicator} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
+import Toast from 'react-native-toast-message';
 
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
 
 const Login = (props) => {
 
+  const [viewToggle, setViewToggle] = useState(true);
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
   const [errorStatus, setErrorStatus] = useState(false);
@@ -33,43 +35,94 @@ const handleEmailChange = (email) => {
     console.log(email);
 }
 
+useEffect(() => {
+    setEmail("");
+    setPassword("");
+    checkUserExists()
+},[])
+
+const checkUserExists = () => {
+    console.log("check if user exists")
+        auth().onAuthStateChanged((user) => {
+        if (user) {
+            console.log("user exists",user)
+            props.navigation.navigate('App',{screen:'Home'})
+            // setViewToggle(false);
+        }
+  });  
+  setViewToggle(false);
+}
+
 const handleSignup = () => {
     props.navigation.navigate('Signup')
 }
 
 const handleLogin2 = () => {
-    props.navigation.navigate('App',{screen:'Notification}'})
+    props.navigation.navigate('App',{screen:'Home'})
 }
 
-const handleLogin = () => {
+const handleLogin = async() => {
+
+    setViewToggle(true);
 
     console.log("email" + email);
     console.log("password" + password);
     if(email!=null && password!=null){
-        auth()
+        await auth()
     .signInWithEmailAndPassword(email, password)
     .then(() => {
         props.navigation.navigate('App',{screen:'Notification}'})
     })
     .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
-        console.log('That email address is already in use!');
+            console.log('That email address is already in use!');
+            Toast.show({
+                type: 'error',
+                text1: 'Error!',
+                text2 : 'That email address is already in use!',
+                position:'bottom',
+                visibilityTime:2000
+            });
+        
         }
 
         if (error.code === 'auth/invalid-email') {
-        console.log('That email address is invalid!');
+            console.log('That email address is invalid!');
+            Toast.show({
+                type: 'error',
+                text1: 'Error!',
+                text2 : 'That email address is invalid!',
+                position:'bottom',
+                visibilityTime:2000
+            });
+             
         }
 
-        console.error(error);
+        Toast.show({
+            type: 'error',
+            text1: 'Error!',
+            text2 : error.code,
+            position:'bottom',
+            visibilityTime:2000
+        });
+        setViewToggle(false);
     });
     }
     else{
+        setViewToggle(false);
         console.log("error")
     }   
 }
   
   return (
     <View style={styles.body}>
+        <Toast
+        bottomOffset={40}
+        />
+        { viewToggle ?
+            <ActivityIndicator size={'large'} color={'#7F53AC'} style={{marginVertical:sh*0.05}}/>
+            : 
+            <>
         <View style={{ height: sh*0.1, width: sh*0.1,marginTop:'20%',marginBottom:'10%',alignSelf:'flex-start',marginHorizontal:'10%',backgroundColor:'#000',borderRadius:16}}>
             <LinearGradient
             colors={['#647DEE','#7F53AC']}
@@ -100,7 +153,7 @@ const handleLogin = () => {
                 </TouchableOpacity>
             </View>
         </View>
-        <TouchableOpacity  style={styles.loginButton} onPress={() => {handleLogin2()}}>
+        <TouchableOpacity  style={styles.loginButton} onPress={() => {handleLogin()}}>
             <View>
                 <Text style={{color:'#000'}}>Log in</Text>
             </View>
@@ -117,6 +170,9 @@ const handleLogin = () => {
                 <Text style={{color:'#000'}}>Sign up</Text>
             </View>
         </TouchableOpacity>
+
+        </>
+        }
         
     </View>
   )

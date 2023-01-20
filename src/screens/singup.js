@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import {View,Text,StyleSheet,Dimensions,TextInput,TouchableOpacity,Image} from 'react-native'
+import {View,Text,StyleSheet,Dimensions,TextInput,TouchableOpacity,Image,ActivityIndicator} from 'react-native'
 import auth from '@react-native-firebase/auth';
 import Images from '../../util/images';
 import firestore from '@react-native-firebase/firestore';
+import Toast from 'react-native-toast-message';
 
 const sh = Dimensions.get('window').height;
 const sw = Dimensions.get('window').width;
@@ -10,6 +11,7 @@ const sw = Dimensions.get('window').width;
 const Signup = (props) => {
     const [email, setEmail] = useState("");
     const [errorStatus, setErrorStatus] = useState(false);
+    const [viewToggle, setViewToggle] = useState(false);
     const [errorStatusPassword, setErrorStatusPassword] = useState(false);
     const [errorStatusPassword2,setErrorStatusPassword2] = useState(false);
     const [password, setPassword] = useState("");
@@ -59,7 +61,7 @@ const Signup = (props) => {
         // if(!validateEmail(email)){
         //     return;
         // }
-
+        setViewToggle(true)
         if(password != confirmPassword){
             setErrorStatusPassword2(true);
             setErrorMsgPass("Passwords do not match");
@@ -86,30 +88,78 @@ const Signup = (props) => {
         })
         .catch(error => {
             if (error.code === 'auth/email-already-in-use') {
-            console.log('That email address is already in use!');
+                console.log('That email address is already in use!');
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error!',
+                    text2 : error.code,
+                    position:'bottom',
+                    visibilityTime:2000
+                });
+                setViewToggle(false)
             }
 
             if (error.code === 'auth/invalid-email') {
-            console.log('That email address is invalid!');
+                console.log('That email address is invalid!');
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error!',
+                    text2 : error.code,
+                    position:'bottom',
+                    visibilityTime:2000
+                });
+                setViewToggle(false)
             }
 
             console.error(error);
+
+            Toast.show({
+                type: 'error',
+                text1: 'Error!',
+                text2 : error.code,
+                position:'bottom',
+                visibilityTime:2000
+            });
+            setViewToggle(false)
         });
         }
         else{
-            console.log("error")
+            Toast.show({
+                type: 'error',
+                text1: 'Error!',
+                text2 : error.code,
+                position:'bottom',
+                visibilityTime:2000
+            });
         }   
     }
 
-    const postSignupChange = () => {
+    const postSignupChange = async() => {
+        Toast.show({
+            type: 'success',
+            text1: 'Sucess',
+            text2 : 'Account created successfully!',
+            position:'bottom',
+            visibilityTime:2000
+        });
+
         setEmail("");
         setPassword("");
         setConfirmPassword("");
-        props
+
+        auth()
+        .signOut()
+        .then(() => {
+            setViewToggle(false)
+            props.navigation.navigate('Login')
+        });
     }
 
     return (
         <View style={styles.body}>
+            <Toast
+            bottomOffset={40}
+            />
             <View style={styles.titleBody}>
                 <TouchableOpacity onPress={() => {props.navigation.navigate('Login')}}>
                     <Image source={Images.left_arrow} style={{height:24,width:24,marginRight:'3%',tintColor:'#fff'}}/>
@@ -158,10 +208,15 @@ const Signup = (props) => {
                 <Text style={{color:'#fff',fontSize:12}}>{`\u2022 ${" Symbol(~`!@#$%^&*()_-+={[}]|\)"}`}</Text>
             </View>
 
-            <View style={styles.accountCreated}>
+            { viewToggle ?
+            <ActivityIndicator size={'large'} color={'#7F53AC'} style={{marginVertical:sh*0.05}}/>
+            : null
+            }
+
+            {/* <View style={styles.accountCreated}>
                 <Text style={{fontSize:16,color:'#048f37'}}>Account created successfully!</Text>
                 <Text style={{fontSize:12,color:'#048f37'}}>Please go back and login to continue.</Text>
-            </View>
+            </View> */}
 
 
         </View>

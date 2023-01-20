@@ -22,6 +22,7 @@ const Home = (props) => {
 
   const getWorkoutSize = async() => {
      let uid = auth().currentUser.uid;
+     console.log(uid);
 
      await firestore()
             .collection('workoutsCollection')
@@ -39,6 +40,14 @@ const Home = (props) => {
 
   const getTodaysWorkout = () => {
 
+  }
+
+  const handleLogout = () => {
+    auth()
+    .signOut()
+    .then(() => {
+        props.navigation.navigate('Login')
+    });
   }
   
   return (
@@ -82,9 +91,9 @@ const Home = (props) => {
                     </View>
                     
                 </View>
-                <View style={[styles.stats,{marginBottom:'20%',height:sh*0.07,justifyContent:'center',backgroundColor:'#fff'}]}>
+                <TouchableOpacity onPress={() => {handleLogout()}}  style={[styles.stats,{marginBottom:'20%',height:sh*0.07,justifyContent:'center',backgroundColor:'#fff'}]}>
                     <Text style={{fontSize:24,marginHorizontal:'5%'}}>Logout</Text>
-                </View>
+                </TouchableOpacity>
             </>
         }
     </ScrollView>
